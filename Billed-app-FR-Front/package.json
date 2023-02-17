@@ -1,0 +1,55 @@
+{
+  "name": "billapp-frontend",
+  "version": "1.0.0",
+  "description": "frontend app for billapp",
+  "scripts": {
+    "serve": "live-server",
+    "test": "jest --coverage --noStackTrace --silent",
+    "prepare": "husky install"
+  },
+  "jest": {
+    "verbose": false,
+    "setupFiles": [
+      "./setup-jest.js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/app/**",
+      "!**/assets/**",
+      "!**/external/**",
+      "!**/fixtures/**",
+      "!**/lcov-report/**"
+    ]
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
+  },
+  "type": "module",
+  "dependencies": {
+    "express": "^4.17.1",
+    "global": "^4.4.0",
+    "jquery": "^3.5.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@testing-library/dom": "^7.20.0",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/user-event": "^12.0.11",
+    "babel-jest": "^26.1.0",
+    "babel-loader": "^9.1.0",
+    "babel-polyfill": "^6.26.0",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "8.5.0",
+    "husky": "^8.0.0",
+    "jest": "^26.1.0",
+    "jest-environment-jsdom": "^27.4.6",
+    "jest-html-reporter": "^3.1.3",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1"
+  }
+}
