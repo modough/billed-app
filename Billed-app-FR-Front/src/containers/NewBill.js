@@ -24,24 +24,30 @@ export default class NewBill {
     const fileName = filePath[filePath.length - 1];
     console.log(fileName);
     const formData = new FormData();
-    const email = JSON.parse(localStorage.getItem('user')).email;
-    formData.append('file', file);
-    formData.append('email', email);
+    if (fileName.includes('png') || fileName.includes('jpeg') || fileName.includes('jpg')) {
 
-    this.store
-      .bills()
-      .create({
-        data: formData,
-        headers: {
-          noContentType: true
-        }
-      })
-      .then(({ fileUrl, key, fileName }) => {
-        console.log(fileUrl);
-        this.billId = key;
-        this.fileUrl = fileUrl;
-        this.fileName = fileName;
-      }).catch(error => console.error(error));
+      const email = JSON.parse(localStorage.getItem('user')).email;
+      formData.append('file', file);
+      formData.append('email', email);
+      this.store
+        .bills()
+        .create({
+          data: formData,
+          headers: {
+            noContentType: true
+          }
+        })
+        .then(({ fileUrl, key, fileName }) => {
+          console.log(fileUrl);
+          this.billId = key;
+          this.fileUrl = fileUrl;
+          this.fileName = fileName;
+        }).catch(error => console.error(error));
+    } else {
+      console.log('error');
+      formData.prepend(file);
+    }
+
   };
   handleSubmit = e => {
     e.preventDefault();
