@@ -25,7 +25,6 @@ export default class NewBill {
     console.log(fileName);
     const formData = new FormData();
     if (fileName.includes('png') || fileName.includes('jpeg') || fileName.includes('jpg')) {
-
       const email = JSON.parse(localStorage.getItem('user')).email;
       formData.append('file', file);
       formData.append('email', email);
@@ -44,8 +43,10 @@ export default class NewBill {
           this.fileName = fileName;
         }).catch(error => console.error(error));
     } else {
-      console.log('error');
-      formData.prepend(file);
+      this.document.querySelector('input[data-testid="file"]').value = null;
+      alert('Le format de l\'image n\'est pas valide');
+      return;
+
     }
 
   };
