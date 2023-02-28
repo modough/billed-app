@@ -14,9 +14,11 @@ export default class NewBill {
     this.fileName = null;
     this.billId = null;
     new Logout({ document, localStorage, onNavigate });
-  }
+  };
+
   handleChangeFile = e => {
     e.preventDefault();
+    console.log(this.document.querySelector('input[data-testid="file"]').value);
     const file = this.document.querySelector('input[data-testid="file"]').files[0];
     console.log(file);
     const filePath = e.target.value.split(/\\/g);
@@ -37,7 +39,6 @@ export default class NewBill {
           }
         })
         .then(({ fileUrl, key, fileName }) => {
-          console.log(fileUrl);
           this.billId = key;
           this.fileUrl = fileUrl;
           this.fileName = fileName;
@@ -50,6 +51,7 @@ export default class NewBill {
     }
 
   };
+
   handleSubmit = e => {
     e.preventDefault();
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector('input[data-testid="datepicker"]').value);

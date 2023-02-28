@@ -88,7 +88,7 @@ export default class {
   };
 
   handleEditTicket(e, bill, bills) {
-
+    console.log(bill);
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
     if (this.counter % 2 === 0) {
@@ -134,29 +134,25 @@ export default class {
   };
 
   handleShowTickets(e, bills, index) {
-    console.log(this.counter);
-    console.log(this.index);
+    console.log(e.currentTarget);
     if (this.counter === undefined || this.index !== index) this.counter = 0;
     if (this.index === undefined || this.index !== index) this.index = index;
-    if (this.counter % 2 === 0) {
+    if (!e.currentTarget.classList.contains('inactive')) {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)' });
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))));
-      this.index++;
+      e.currentTarget.classList.add('inactive');
     } else {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)' });
       $(`#status-bills-container${this.index}`)
         .html('');
-      this.index++;
+      e.currentTarget.classList.remove('inactive');
     }
 
-    bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => {
-        console.log(e);
-        return this.handleEditTicket(e, bill, bills);
-
-      });
+    filteredBills(bills, getStatus(this.index)).forEach(bill => {
+      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills));
     });
+
 
     return bills;
 
