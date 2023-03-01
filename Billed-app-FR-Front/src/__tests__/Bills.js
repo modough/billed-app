@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor } from '@testing-library/dom';
+import { getByTestId, screen, waitFor } from '@testing-library/dom';
 import BillsUI from '../views/BillsUI.js';
 import { bills } from '../fixtures/bills.js';
 import { ROUTES_PATH } from '../constants/routes.js';
@@ -50,9 +50,19 @@ describe('Given I am connected as an employee', () => {
 
     it('should show bill file', () => {
       const eye = screen.getAllByTestId('icon-eye')[0];
-
       expect(eye).toBeTruthy();
 
+    });
+
+    it('should show an image', () => {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = `
+        <div id="root">
+          <h1 data-testid="bill-image">Billed App</h1>
+        </div>
+      `;
+      expect(getByTestId(wrapper, 'bill-image').textContent)
+        .toEqual('Billed App');
     });
   });
 });
