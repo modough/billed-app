@@ -8,7 +8,7 @@ import BillsUI from '../views/BillsUI.js';
 import { bills } from '../fixtures/bills.js';
 import { ROUTES_PATH } from '../constants/routes.js';
 import { localStorageMock } from '../__mocks__/localStorage.js';
-
+import Bills from '../containers/bills';
 import router from '../app/Router.js';
 
 describe('Given I am connected as an employee', () => {
@@ -28,8 +28,9 @@ describe('Given I am connected as an employee', () => {
       await waitFor(() => windowIcon);
 
       //to-do write expect expression
-
+      expect(windowIcon.id).toContain('layout-icon1');
     });
+
     test('Then bills should be ordered from earliest to latest', () => {
       document.body.innerHTML = BillsUI({ data: bills });
       const dates = screen
@@ -41,6 +42,17 @@ describe('Given I am connected as an employee', () => {
       const antiChrono = (a, b) => new Date(b.date) - new Date(a.date);
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
+    });
+
+
+  });
+  describe('when i click on iconEye', () => {
+
+    it('should show bill file', () => {
+      const eye = screen.getAllByTestId('icon-eye')[0];
+
+      expect(eye).toBeTruthy();
+
     });
   });
 });

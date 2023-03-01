@@ -7,6 +7,7 @@ export default class NewBill {
     this.onNavigate = onNavigate;
     this.store = store;
     const formNewBill = this.document.querySelector('form[data-testid="form-new-bill"]');
+    console.log(formNewBill);
     formNewBill.addEventListener('submit', this.handleSubmit);
     const file = this.document.querySelector('input[data-testid="file"]');
     file.addEventListener('change', this.handleChangeFile);
