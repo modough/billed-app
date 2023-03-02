@@ -3,6 +3,7 @@ import { ROUTES_PATH } from '../constants/routes.js';
 import { formatDate, formatStatus } from '../app/format.js';
 import Logout from './Logout.js';
 
+
 export default class {
   constructor({ document, onNavigate, store, localStorage }) {
     this.document = document;
@@ -24,7 +25,7 @@ export default class {
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute('data-bill-url');
     const imgWidth = Math.floor($('#modaleFile').width() * 0.4);
-    $('#modaleFile').find('.modal-body').html(`<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`);
+    $('#modaleFile').find('.modal-body').html(`<div style="text-align: center;" class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`);
     $('#modaleFile').modal('show');
   };
 
