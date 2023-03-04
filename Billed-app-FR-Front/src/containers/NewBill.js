@@ -47,8 +47,6 @@ export default class NewBill {
     } else {
       this.document.querySelector('input[data-testid="file"]').value = null;
       alert('Le format de l\'image n\'est pas valide');
-      return;
-
     }
 
   };
@@ -56,9 +54,10 @@ export default class NewBill {
   handleSubmit = e => {
     e.preventDefault();
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector('input[data-testid="datepicker"]').value);
-    const email = JSON.parse(localStorage.getItem('user')).email;
+    const Email = JSON.parse(localStorage.getItem('user')).email;
+    console.log(Email);
     const bill = {
-      email,
+      Email,
       type: e.target.querySelector('select[data-testid="expense-type"]').value,
       name: e.target.querySelector('input[data-testid="expense-name"]').value,
       amount: parseInt(e.target.querySelector('input[data-testid="amount"]').value),
