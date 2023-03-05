@@ -43,21 +43,21 @@ describe('Given I am connected as an employee', () => {
     });
   });
 
-  // Integration tests
+
   describe('when i click on iconEye', () => {
     it('should show bill file', () => {
       const store = null;
-      const billsClass = new Bills({ document, onNavigate, store, localStorage: window.localStorage });
-      const eyes = screen.getAllByTestId('icon-eye');
-      const handleClickIconEye = jest.fn(billsClass.handleClickIconEye(eyes[0]));
-      eyes[0].addEventListener('click', handleClickIconEye);
-      userEvent.click(eyes[0]);
+      const newBills = new Bills({ document, onNavigate, store, localStorage: window.localStorage });
+      const eye = screen.getAllByTestId('icon-eye')[0];
+      const handleClickIconEye = jest.fn(newBills.handleClickIconEye(eye));
+      eye.addEventListener('click', handleClickIconEye);
+      userEvent.click(eye);
       expect(handleClickIconEye).toHaveBeenCalled();
-
       const modale = document.getElementById('modaleFile');
       expect(modale).toBeTruthy();
 
     });
+    // Integration tests
     it('should have a h1 tag', () => {
       const wrapper = document.createElement('div');
       wrapper.innerHTML = `
@@ -100,8 +100,7 @@ describe('When I click New bill button', () => {
     const newBills = new Bills({
       document,
       onNavigate,
-      store: store,
-      localStorage: window.localStorage
+      store
     });
     const handleClickNewBill = jest.fn(() => newBills.handleClickNewBill());
     const button = screen.getByTestId('btn-new-bill');
@@ -114,11 +113,11 @@ describe('When I click New bill button', () => {
 
 describe('Given I am connected as an employee', () => {
   it('Should have no store, and no bills', () => {
-    const newBills = new Bills({ store: null, document });
+    const newBills = new Bills({ document });
     expect(newBills.getBills()).toBe(undefined);
   });
   it('Should have a store, and have bills and list of bills', async () => {
-    const newBills = new Bills({ store, document });
+    const newBills = new Bills({ document, store });
     const billsRetrieved = await newBills.getBills();
     expect(billsRetrieved.length).toBe(4);
   });
@@ -132,7 +131,7 @@ describe('When I navigate to Bills page', () => {
     const onNavigate = (pathname) => {
       document.body.innerHTML = ROUTES({ pathname });
     };
-    const newBills = new Bills({ document, onNavigate, store: null, localStorage: null });
+    const newBills = new Bills({ document, onNavigate, store: null });
     expect(newBills.document).toBe(document);
     expect(newBills.onNavigate).toBe(onNavigate);
     expect(newBills.store).toBe(null);
@@ -142,7 +141,7 @@ describe('When I navigate to Bills page', () => {
       document.body.innerHTML = ROUTES({ pathname });
     };
     document.body.innerHTML = '<div></div>';
-    const newBills = new Bills({ document, onNavigate, store: null, localStorage: null });
+    const newBills = new Bills({ document, onNavigate, store: null });
     expect(newBills.document).toBe(document);
     expect(newBills.onNavigate).toBe(onNavigate);
     expect(newBills.store).toBe(null);

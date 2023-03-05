@@ -56,6 +56,7 @@ describe('Given I am connected as an employee', () => {
     });
   });
 });
+
 describe('Given I am connected as an employee', () => {
   describe('When I am on NewBill Page and I fill the form', () => {
     it('Should submit form', () => {
