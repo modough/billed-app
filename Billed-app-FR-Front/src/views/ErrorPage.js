@@ -1,4 +1,4 @@
-import VerticalLayout from './VerticalLayout.js'
+import VerticalLayout from './VerticalLayout.js';
 
 export default (error) => {
   return (`
@@ -9,8 +9,8 @@ export default (error) => {
           <div class='content-title'> Erreur </div>
         </div>
         <div data-testid="error-message">
-          ${error ? error : ""}
+          ${error ? error : ''}
         </div>
     </div>`
-  )
-}
+  );
+};

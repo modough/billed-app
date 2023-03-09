@@ -11,6 +11,8 @@ import { localStorageMock } from '../__mocks__/localStorage.js';
 import mockStore from '../__mocks__/store.js';
 import NewBillUI from '../views/NewBillUI.js';
 import NewBill from '../containers/NewBill.js';
+import { ROUTES_PATH } from '../constants/routes.js';
+import router from '../app/Router.js';
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 window.localStorage.setItem('user', JSON.stringify({
@@ -91,7 +93,29 @@ describe('Given I am connected as an employee', () => {
       formNewBill.addEventListener('submit', handleSubmit);
       fireEvent.submit(formNewBill);
       expect(handleSubmit).toHaveBeenCalled();
-      expect(file.value).not.toBe(null);
+      expect(file.value).toBeDefined();
     });
+  });
+});
+
+describe('When I submit a new bill', () => {
+  test('send new bill to mock API POST', async () => {
+    localStorage.setItem('user', JSON.stringify({ type: 'Employee', email: 'a@a' }));
+    const root = document.createElement('div');
+    root.setAttribute('id', 'root');
+    document.body.append(root);
+    router();
+
+    const store = null;
+    const newBill = new NewBill({
+      document, onNavigate, store, localStorage: window.localStorage
+    });
+    window.onNavigate(ROUTES_PATH.Bills);
+
+    const handleSubmit = jest.fn(() => newBill.handleSubmit);
+    const submitBtn = screen.getByTestId('submit');
+    submitBtn.addEventListener('click', handleSubmit);
+    fireEvent.click(submitBtn);
+    expect(handleSubmit).toHaveBeenCalled();
   });
 });

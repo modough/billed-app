@@ -48,10 +48,9 @@ export default class NewBill {
       this.document.querySelector('input[data-testid="file"]').value = null;
       alert('Le format de l\'image n\'est pas valide');
     }
-
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector('input[data-testid="datepicker"]').value);
     const Email = JSON.parse(localStorage.getItem('user')).email;
@@ -74,6 +73,7 @@ export default class NewBill {
   };
 
   // not need to cover this function by tests
+  /*istanbul ignore next*/
   updateBill = (bill) => {
     if (this.store) {
       this.store

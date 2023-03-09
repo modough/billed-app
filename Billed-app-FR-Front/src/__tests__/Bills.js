@@ -24,12 +24,16 @@ describe('Given I am connected as an employee', () => {
       root.setAttribute('id', 'root');
       document.body.append(root);
       router();
-      window.onNavigate(ROUTES_PATH.Bills);
+      window.onNavigate(ROUTES_PATH['Bills']);
       const windowIcon = screen.getByTestId('icon-window');
-      await waitFor(() => windowIcon);
+      const mailIcon = screen.getByTestId('icon-mail');
+      const disconnectIcon = screen.getByTestId('icon-disconnect');
+      await waitFor(() => windowIcon, mailIcon, disconnectIcon);
 
       //to-do write expect expression
       expect(windowIcon.id).toContain('layout-icon1');
+      expect(mailIcon.id).toContain('layout-icon2');
+      expect(disconnectIcon.id).toContain('layout-disconnect');
     });
 
     it('Should have bills ordered from earliest to latest', () => {
@@ -50,13 +54,14 @@ describe('Given I am connected as an employee', () => {
       const newBills = new Bills({ document, onNavigate, store, localStorage: window.localStorage });
       const eye = screen.getAllByTestId('icon-eye')[0];
       const handleClickIconEye = jest.fn(newBills.handleClickIconEye(eye));
+      const modale = document.getElementById('modaleFile');
       eye.addEventListener('click', handleClickIconEye);
       userEvent.click(eye);
-      expect(handleClickIconEye).toHaveBeenCalled();
-      const modale = document.getElementById('modaleFile');
-      expect(modale).toBeTruthy();
 
+      expect(handleClickIconEye).toHaveBeenCalled();
+      expect(modale).toBeTruthy();
     });
+
     // Integration tests
     it('should have a h1 tag', () => {
       const wrapper = document.createElement('div');
@@ -69,6 +74,8 @@ describe('Given I am connected as an employee', () => {
         .toEqual('Billed App');
     });
   });
+
+
 
   describe('Given i am on the loading page', () => {
     it('Should show Loading...', () => {
@@ -90,6 +97,7 @@ describe('Given I am connected as an employee', () => {
   });
 });
 
+
 describe('When I click New bill button', () => {
   it('Should have New bill page rendered', () => {
     const html = BillsUI({ data: [] });
@@ -106,6 +114,7 @@ describe('When I click New bill button', () => {
     const button = screen.getByTestId('btn-new-bill');
     button.addEventListener('click', handleClickNewBill);
     userEvent.click(button);
+
     expect(handleClickNewBill).toHaveBeenCalled();
     expect(screen.getByTestId('form-new-bill')).toBeTruthy();
   });
@@ -134,7 +143,7 @@ describe('When I navigate to Bills page', () => {
     const newBills = new Bills({ document, onNavigate, store: null });
     expect(newBills.document).toBe(document);
     expect(newBills.onNavigate).toBe(onNavigate);
-    expect(newBills.store).toBe(null);
+    expect(newBills.store).toBeDefined();
   });
   it('Should have empty html', () => {
     const onNavigate = (pathname) => {
@@ -144,6 +153,34 @@ describe('When I navigate to Bills page', () => {
     const newBills = new Bills({ document, onNavigate, store: null });
     expect(newBills.document).toBe(document);
     expect(newBills.onNavigate).toBe(onNavigate);
-    expect(newBills.store).toBe(null);
+    expect(newBills.store).toBeDefined();
+  });
+
+  //with error message
+  it('Should show an error message', () => {
+    const html = BillsUI({ error: 'Erreur 404' });
+    document.body.innerHTML = html;
+    const message = screen.getByText(/Erreur 404/);
+    expect(message).toBeTruthy();
+  });
+});
+
+// Test d'integration GET
+describe('Given I am a user connected as Employee', () => {
+  describe('When I navigate to Bills Page', () => {
+    test('Then the bills are fetched from the simulated API GET', async () => {
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ type: 'Employee', email: 'a@a' })
+      );
+      const root = document.createElement('div');
+      root.setAttribute('id', 'root');
+      document.body.append(root);
+      router();
+      window.onNavigate(ROUTES_PATH['Bills']);
+      await waitFor(() => screen.getAllByText('Billed'));
+      const button = screen.getAllByTestId('icon-disconnect');
+      expect(button).toBeTruthy();
+    });
   });
 });

@@ -122,16 +122,13 @@ describe('Given I am connected as an Admin', () => {
 
   describe('When I am on Dashboard page and I click 2 times on edit icon of a card', () => {
     test('Then, big bill Icon should Appear', () => {
-
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname });
       };
-
       Object.defineProperty(window, 'localStorage', { value: localStorageMock });
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
       }));
-
       const dashboard = new Dashboard({
         document, onNavigate, store: null, bills: bills, localStorage: window.localStorage
       });
@@ -252,9 +249,9 @@ describe('Given I am a user connected as Admin', () => {
       router();
       window.onNavigate(ROUTES_PATH.Dashboard);
       await waitFor(() => screen.getByText('Validations'));
-      const contentPending = await screen.getByText('En attente (1)');
+      const contentPending = screen.getByText('En attente (1)');
       expect(contentPending).toBeTruthy();
-      const contentRefused = await screen.getByText('Refusé (2)');
+      const contentRefused = screen.getByText('Refusé (2)');
       expect(contentRefused).toBeTruthy();
       expect(screen.getByTestId('big-billed-icon')).toBeTruthy();
     });
@@ -286,7 +283,7 @@ describe('Given I am a user connected as Admin', () => {
         });
         window.onNavigate(ROUTES_PATH.Dashboard);
         await new Promise(process.nextTick);
-        const message = await screen.getByText(/Erreur 404/);
+        const message = screen.getByText(/Erreur 404/);
         expect(message).toBeTruthy();
       });
 
@@ -302,7 +299,7 @@ describe('Given I am a user connected as Admin', () => {
 
         window.onNavigate(ROUTES_PATH.Dashboard);
         await new Promise(process.nextTick);
-        const message = await screen.getByText(/Erreur 500/);
+        const message = screen.getByText(/Erreur 500/);
         expect(message).toBeTruthy();
       });
     });
