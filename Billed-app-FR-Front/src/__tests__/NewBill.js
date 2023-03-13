@@ -98,24 +98,25 @@ describe('Given I am connected as an employee', () => {
   });
 });
 
-describe('When I submit a new bill', () => {
-  test('send new bill to mock API POST', async () => {
-    localStorage.setItem('user', JSON.stringify({ type: 'Employee', email: 'a@a' }));
-    const root = document.createElement('div');
-    root.setAttribute('id', 'root');
-    document.body.append(root);
-    router();
+describe('Given I am connected as an employee', () => {
+  describe('When I submit a new bill', () => {
+    it('Should send new bill to mock API POST', async () => {
+      localStorage.setItem('user', JSON.stringify({ type: 'Employee', email: 'a@a' }));
+      const root = document.createElement('div');
+      root.setAttribute('id', 'root');
+      document.body.append(root);
+      router();
+      const store = null;
+      const newBill = new NewBill({
+        document, onNavigate, store, localStorage: window.localStorage
+      });
+      window.onNavigate(ROUTES_PATH.Bills);
 
-    const store = null;
-    const newBill = new NewBill({
-      document, onNavigate, store, localStorage: window.localStorage
+      const handleSubmit = jest.fn(() => newBill.handleSubmit);
+      const submitBtn = screen.getByTestId('submit');
+      submitBtn.addEventListener('click', handleSubmit);
+      fireEvent.click(submitBtn);
+      expect(handleSubmit).toHaveBeenCalled();
     });
-    window.onNavigate(ROUTES_PATH.Bills);
-
-    const handleSubmit = jest.fn(() => newBill.handleSubmit);
-    const submitBtn = screen.getByTestId('submit');
-    submitBtn.addEventListener('click', handleSubmit);
-    fireEvent.click(submitBtn);
-    expect(handleSubmit).toHaveBeenCalled();
   });
 });

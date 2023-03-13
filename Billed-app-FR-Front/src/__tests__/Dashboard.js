@@ -160,7 +160,7 @@ describe('Given I am connected as an Admin', () => {
 
 describe('Given I am connected as Admin, and I am on Dashboard page, and I clicked on a pending bill', () => {
   describe('When I click on accept button', () => {
-    test('I should be sent on Dashboard with big billed icon instead of form', () => {
+    it('Should be sent on Dashboard with big billed icon instead of form', () => {
       Object.defineProperty(window, 'localStorage', { value: localStorageMock });
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -185,7 +185,7 @@ describe('Given I am connected as Admin, and I am on Dashboard page, and I click
     });
   });
   describe('When I click on refuse button', () => {
-    test('I should be sent on Dashboard with big billed icon instead of form', () => {
+    it('Should be sent on Dashboard with big billed icon instead of form', () => {
       Object.defineProperty(window, 'localStorage', { value: localStorageMock });
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -212,7 +212,7 @@ describe('Given I am connected as Admin, and I am on Dashboard page, and I click
 
 describe('Given I am connected as Admin and I am on Dashboard page and I clicked on a bill', () => {
   describe('When I click on the icon eye', () => {
-    test('A modal should open', () => {
+    it('Should have A modal opened', () => {
       Object.defineProperty(window, 'localStorage', { value: localStorageMock });
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -241,7 +241,7 @@ describe('Given I am connected as Admin and I am on Dashboard page and I clicked
 // test d'intégration GET
 describe('Given I am a user connected as Admin', () => {
   describe('When I navigate to Dashboard', () => {
-    test('fetches bills from mock API GET', async () => {
+    it('Should fetch bills from mock API GET', async () => {
       localStorage.setItem('user', JSON.stringify({ type: 'Admin', email: 'a@a' }));
       const root = document.createElement('div');
       root.setAttribute('id', 'root');

@@ -112,7 +112,7 @@ describe('Given that I am a user on login page', () => {
       );
     });
 
-    test('It should renders Bills page', () => {
+    it('Should renders Bills page', () => {
       expect(screen.getAllByText('Mes notes de frais')).toBeTruthy();
     });
   });
@@ -224,7 +224,7 @@ describe('Given that I am a user on login page', () => {
       );
     });
 
-    test('It should renders HR dashboard page', () => {
+    it('Should renders HR dashboard page', () => {
       expect(screen.queryByText('Validations')).toBeTruthy();
     });
   });

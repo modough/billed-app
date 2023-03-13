@@ -168,7 +168,7 @@ describe('When I navigate to Bills page', () => {
 // Test d'integration GET
 describe('Given I am a user connected as Employee', () => {
   describe('When I navigate to Bills Page', () => {
-    test('Then the bills are fetched from the simulated API GET', async () => {
+    it('Should have bills fetched from the simulated API GET', async () => {
       localStorage.setItem(
         'user',
         JSON.stringify({ type: 'Employee', email: 'a@a' })
