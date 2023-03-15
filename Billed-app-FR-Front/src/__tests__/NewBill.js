@@ -13,6 +13,7 @@ import NewBillUI from '../views/NewBillUI.js';
 import NewBill from '../containers/NewBill.js';
 import { ROUTES_PATH } from '../constants/routes.js';
 import router from '../app/Router.js';
+import { newCreatedBill } from '../__mocks__/newBill.js';
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 window.localStorage.setItem('user', JSON.stringify({
@@ -62,38 +63,7 @@ describe('Given I am connected as an employee', () => {
 describe('Given I am connected as an employee', () => {
   describe('When I am on NewBill Page and I fill the form', () => {
     it('Should submit form', () => {
-      const html = NewBillUI();
-      document.body.innerHTML = html;
-      const newBill = new NewBill({
-        document, onNavigate, store: mockStore, localStorage: window.localStorage
-      });
-      const handleSubmit = jest.fn(newBill.handleSubmit);
-      const formNewBill = screen.getByTestId('form-new-bill');
-      const file = screen.getByTestId('file');
-      const newCreatedBill = {
-        type: 'Transports',
-        name: 'validBill',
-        date: '2022-07-01',
-        amount: 50,
-        vat: 70,
-        pct: 20,
-        fileUrl: 'https://localhost:3456/images/test.jpg',
-        fileName: 'test.jpg'
-      };
-      screen.getByTestId('expense-type').value = newCreatedBill.type;
-      screen.getByTestId('datepicker').value = newCreatedBill.date;
-      screen.getByTestId('expense-name').value = newCreatedBill.name;
-      screen.getByTestId('amount').value = newCreatedBill.amount;
-      screen.getByTestId('vat').value = newCreatedBill.vat;
-      screen.getByTestId('pct').value = newCreatedBill.pct;
-      screen.getByTestId('commentary').value = newCreatedBill.commentary;
-      newBill.fileUrl = newCreatedBill.fileUrl;
-      newBill.fileName = newCreatedBill.fileName;
 
-      formNewBill.addEventListener('submit', handleSubmit);
-      fireEvent.submit(formNewBill);
-      expect(handleSubmit).toHaveBeenCalled();
-      expect(file.value).toBeDefined();
     });
   });
 });
@@ -106,17 +76,30 @@ describe('Given I am connected as an employee', () => {
       root.setAttribute('id', 'root');
       document.body.append(root);
       router();
-      const store = null;
-      const newBill = new NewBill({
-        document, onNavigate, store, localStorage: window.localStorage
-      });
       window.onNavigate(ROUTES_PATH.Bills);
+      const html = NewBillUI();
+      document.body.innerHTML = html;
+      const newBill = new NewBill({
+        document, onNavigate, store: mockStore, localStorage: window.localStorage
+      });
+      const handleSubmit = jest.fn(newBill.handleSubmit);
+      const formNewBill = screen.getByTestId('form-new-bill');
+      const file = screen.getByTestId('file');
 
-      const handleSubmit = jest.fn(() => newBill.handleSubmit);
-      const submitBtn = screen.getByTestId('submit');
-      submitBtn.addEventListener('click', handleSubmit);
-      fireEvent.click(submitBtn);
+      screen.getByTestId('expense-type').value = newCreatedBill.type;
+      screen.getByTestId('datepicker').value = newCreatedBill.date;
+      screen.getByTestId('expense-name').value = newCreatedBill.name;
+      screen.getByTestId('amount').value = newCreatedBill.amount;
+      screen.getByTestId('vat').value = newCreatedBill.vat;
+      screen.getByTestId('pct').value = newCreatedBill.pct;
+      screen.getByTestId('commentary').value = newCreatedBill.commentary;
+      newBill.fileUrl = newCreatedBill.fileUrl;
+      newBill.fileName = newCreatedBill.fileName;
+      formNewBill.addEventListener('submit', handleSubmit);
+      fireEvent.submit(formNewBill);
+
       expect(handleSubmit).toHaveBeenCalled();
+      expect(file.value).toBeDefined();
     });
   });
 });

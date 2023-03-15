@@ -94,7 +94,7 @@ const list = async (req, res) => {
       ? await Bill.findAll()
       : await Bill.findAll({
         where: { email: user.email },
-        order: [['date', 'DESC']]
+
       });
     return res.json(
       bills.map(

@@ -12,6 +12,7 @@ import { localStorageMock } from '../__mocks__/localStorage.js';
 import Bills from '../containers/bills';
 import router from '../app/Router.js';
 import { ROUTES, ROUTES_PATH } from '../constants/routes';
+import { errorMock404 } from '../__mocks__/errors';
 
 describe('Given I am connected as an employee', () => {
   describe('When I am on Bills Page', () => {
@@ -158,7 +159,7 @@ describe('When I navigate to Bills page', () => {
 
   //with error message
   it('Should show an error message', () => {
-    const html = BillsUI({ error: 'Erreur 404' });
+    const html = BillsUI({ error: errorMock404 });
     document.body.innerHTML = html;
     const message = screen.getByText(/Erreur 404/);
     expect(message).toBeTruthy();

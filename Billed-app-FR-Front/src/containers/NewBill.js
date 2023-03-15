@@ -70,6 +70,7 @@ export default class NewBill {
     };
     this.updateBill(bill);
     this.onNavigate(ROUTES_PATH['Bills']);
+
   };
 
   // not need to cover this function by tests

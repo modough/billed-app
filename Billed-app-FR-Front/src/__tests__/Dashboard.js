@@ -13,6 +13,7 @@ import { localStorageMock } from '../__mocks__/localStorage.js';
 import mockStore from '../__mocks__/store';
 import { bills } from '../fixtures/bills';
 import router from '../app/Router';
+import { errorMock404, errorMock500 } from '../__mocks__/errors.js';
 
 jest.mock('../app/store', () => mockStore);
 
@@ -277,7 +278,7 @@ describe('Given I am a user connected as Admin', () => {
         mockStore.bills.mockImplementationOnce(() => {
           return {
             list: () => {
-              return Promise.reject(new Error('Erreur 404'));
+              return Promise.reject(new Error(errorMock404));
             }
           };
         });
@@ -288,11 +289,10 @@ describe('Given I am a user connected as Admin', () => {
       });
 
       test('fetches messages from an API and fails with 500 message error', async () => {
-
         mockStore.bills.mockImplementationOnce(() => {
           return {
             list: () => {
-              return Promise.reject(new Error('Erreur 500'));
+              return Promise.reject(new Error(errorMock500));
             }
           };
         });
